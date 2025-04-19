@@ -1,7 +1,7 @@
+import { memo } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { ITask } from '@interfaces/ITask';
 import { styles, getStatusStyle } from './index.styles';
-
 interface ITaskListProps {
   tasks: ITask[];
   onTaskPress: (task: ITask) => void;
@@ -25,4 +25,4 @@ const TaskList: React.FC<ITaskListProps> = ({ tasks, onTaskPress }) => {
   );
 };
 
-export default TaskList;
+export default memo(TaskList);
