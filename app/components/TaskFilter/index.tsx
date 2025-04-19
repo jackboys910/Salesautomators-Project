@@ -4,7 +4,6 @@ import { DateFilter, StatusFilter } from '@hooks/useFilter';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { statusOptions } from '@constants/statusOptions';
 import { styles } from './index.styles';
-
 interface ITaskFilterProps {
   isVisible: boolean;
   onClose: () => void;
@@ -13,9 +12,6 @@ interface ITaskFilterProps {
   onFilterChange: (status: StatusFilter, sort: DateFilter) => void;
 }
 
-const FILTER_HEIGHT = 160;
-const FILTER_OFFSET = 110;
-
 const TaskFilter: React.FC<ITaskFilterProps> = ({
   isVisible,
   onClose,
@@ -23,7 +19,7 @@ const TaskFilter: React.FC<ITaskFilterProps> = ({
   sortByDate,
   onFilterChange,
 }) => {
-  const translateY = useSharedValue(-FILTER_HEIGHT + FILTER_OFFSET);
+  const translateY = useSharedValue(-50);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: translateY.value }],
@@ -31,10 +27,18 @@ const TaskFilter: React.FC<ITaskFilterProps> = ({
   }));
 
   useEffect(() => {
-    translateY.value = withTiming(isVisible ? 0 : -FILTER_HEIGHT, {
+    translateY.value = withTiming(isVisible ? 0 : -160, {
       duration: 250,
     });
   }, [isVisible]);
+
+  const handleSortDateChange = (sortDate: DateFilter) => {
+    onFilterChange(filterStatus, sortDate);
+  };
+
+  const handleStatusChange = (status: StatusFilter) => {
+    onFilterChange(filterStatus === status ? null : status, sortByDate);
+  };
 
   return (
     <Animated.View style={[styles.filterContainer, animatedStyle]}>
@@ -42,7 +46,7 @@ const TaskFilter: React.FC<ITaskFilterProps> = ({
       <View style={styles.filterRow}>
         <TouchableOpacity
           style={[styles.filterBtn, sortByDate === 'newest' && styles.filterBtnActive]}
-          onPress={() => onFilterChange(filterStatus, 'newest')}
+          onPress={() => handleSortDateChange('newest')}
         >
           <Text
             style={[styles.filterBtnText, sortByDate === 'newest' && styles.filterBtnTextActive]}
@@ -52,7 +56,7 @@ const TaskFilter: React.FC<ITaskFilterProps> = ({
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.filterBtn, sortByDate === 'oldest' && styles.filterBtnActive]}
-          onPress={() => onFilterChange(filterStatus, 'oldest')}
+          onPress={() => handleSortDateChange('oldest')}
         >
           <Text
             style={[styles.filterBtnText, sortByDate === 'oldest' && styles.filterBtnTextActive]}
@@ -68,7 +72,7 @@ const TaskFilter: React.FC<ITaskFilterProps> = ({
           <TouchableOpacity
             key={status}
             style={[styles.filterBtn, filterStatus === status && styles.filterBtnActive]}
-            onPress={() => onFilterChange(filterStatus === status ? null : status, sortByDate)}
+            onPress={() => handleStatusChange(status)}
           >
             <Text
               style={[styles.filterBtnText, filterStatus === status && styles.filterBtnTextActive]}
