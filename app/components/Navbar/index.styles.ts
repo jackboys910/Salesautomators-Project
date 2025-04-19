@@ -7,24 +7,24 @@ export const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: theme.colors.PRIMARY_DARK,
-    borderRadius: 5,
-    marginLeft: 10,
-    padding: 10,
+    borderRadius: theme.borderRadius.SMALL,
+    marginLeft: theme.margin.LARGE,
+    padding: theme.padding.NORMAL,
   },
   buttonText: {
     color: theme.colors.BUTTON_TEXT,
-    fontSize: 14,
+    fontSize: theme.fontSizes.SMALL,
   },
   navbar: {
     alignItems: 'center',
     backgroundColor: theme.colors.PRIMARY,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
+    padding: theme.padding.LARGE,
   },
   title: {
     color: theme.colors.BUTTON_TEXT,
-    fontSize: 20,
+    fontSize: theme.fontSizes.EXTRA_LARGE,
     fontWeight: 'bold',
   },
 });
