@@ -9,7 +9,7 @@ export const theme = {
     TEXT_SECONDARY: '#5D7573',
     ACCENT: '#14B19D',
     ACCENT_SOFT: '#D6F5EF',
-    DANGER: '#E74C3C',
+    DANGER: '#E3776B',
     DANGER_BG: '#FAE3E0',
     PROGRESS_TEXT: '#CFB71B',
     BUTTON_TEXT: '#FFFFFF',
