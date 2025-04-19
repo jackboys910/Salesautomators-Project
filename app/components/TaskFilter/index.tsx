@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { ITask } from '@interfaces/ITask';
+import { DateFilter, StatusFilter } from '@hooks/useFilter';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { statusOptions } from '@constants/statusOptions';
 import { styles } from './index.styles';
-
-type DateFilter = 'oldest' | 'newest';
-type StatusFilter = ITask['status'] | null;
 
 interface ITaskFilterProps {
   isVisible: boolean;

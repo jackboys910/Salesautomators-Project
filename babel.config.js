@@ -10,6 +10,7 @@ export default {
           '@store': './app/store',
           '@constants': './app/constants',
           '@hooks': './app/hooks',
+          '@utils': './app/utils',
           '@interfaces': './app/interfaces',
         },
       },

@@ -1,29 +1,35 @@
 import { useState, useMemo } from 'react';
 import { ITask } from '@interfaces/ITask';
+import { parseDate } from '@utils/parseDate';
 
-export type DateFilter = 'oldest' | 'newest';
+export type DateFilter = 'oldest' | 'newest' | null;
 export type StatusFilter = ITask['status'] | null;
 
 export const useFilter = (tasks: ITask[]) => {
   const [filterStatus, setFilterStatus] = useState<StatusFilter>(null);
-  const [sortByDate, setSortByDate] = useState<DateFilter>('newest');
+  const [sortByDate, setSortByDate] = useState<DateFilter>(null);
 
   const filteredTasks = useMemo(() => {
     let result = tasks;
     if (filterStatus) {
       result = result.filter((task) => task.status === filterStatus);
     }
-    result = [...result].sort((a, b) =>
-      sortByDate === 'newest'
-        ? new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()
-        : new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime(),
-    );
+
+    if (sortByDate) {
+      result = [...result].sort((a, b) =>
+        sortByDate === 'newest'
+          ? parseDate(b.dateTime) - parseDate(a.dateTime)
+          : parseDate(a.dateTime) - parseDate(b.dateTime),
+      );
+    } else {
+      result = [...result];
+    }
     return result;
   }, [tasks, filterStatus, sortByDate]);
 
   const resetFilters = () => {
     setFilterStatus(null);
-    setSortByDate('newest');
+    setSortByDate(null);
   };
 
   return {

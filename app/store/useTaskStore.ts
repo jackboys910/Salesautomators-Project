@@ -13,7 +13,7 @@ interface ITaskState {
 export const useTaskStore = create<ITaskState>((set, get) => ({
   tasks: [],
   addTask: (task) => {
-    const updatedTasks = [...get().tasks, task];
+    const updatedTasks = [task, ...get().tasks];
     set({ tasks: updatedTasks });
     AsyncStorage.setItem('tasks', JSON.stringify(updatedTasks));
   },

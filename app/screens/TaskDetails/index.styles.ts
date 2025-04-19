@@ -18,6 +18,15 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 15,
   },
+  errorInput: {
+    borderColor: theme.colors.DANGER,
+  },
+  errorText: {
+    color: theme.colors.DANGER,
+    fontSize: 14,
+    marginBottom: 10,
+    marginTop: -10,
+  },
   input: {
     backgroundColor: theme.colors.CARD,
     borderColor: theme.colors.BORDER,
@@ -45,5 +54,14 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 10,
     padding: 15,
+  },
+  textArea: {
+    backgroundColor: theme.colors.BACKGROUND,
+    borderColor: theme.colors.BORDER,
+    borderRadius: 6,
+    borderWidth: 1,
+    height: 80,
+    marginBottom: 10,
+    padding: 10,
   },
 });
