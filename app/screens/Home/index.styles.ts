@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
   },
   noTasksText: {
     color: theme.colors.MUTED,
-    fontSize: 16,
-    marginTop: 20,
+    fontSize: theme.fontSizes.MEDIUM,
+    marginTop: theme.margin.BIG,
     textAlign: 'center',
   },
 });
