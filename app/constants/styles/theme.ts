@@ -1,0 +1,20 @@
+export const theme = {
+  colors: {
+    PRIMARY: '#1ABC9C',
+    PRIMARY_DARK: '#16A085',
+    BACKGROUND: '#F7FAFA',
+    CARD: '#FFFFFF',
+    BORDER: '#D0EAE2',
+    TEXT: '#222F2E',
+    TEXT_SECONDARY: '#5D7573',
+    ACCENT: '#14B19D',
+    ACCENT_SOFT: '#D6F5EF',
+    DANGER: '#E74C3C',
+    DANGER_BG: '#FAE3E0',
+    PROGRESS_TEXT: '#CFB71B',
+    BUTTON_TEXT: '#FFFFFF',
+    MODAL_BACKGROUND: '#0000004D',
+    SHADOW: '#000',
+    MUTED: '#B3C2BE',
+  },
+};

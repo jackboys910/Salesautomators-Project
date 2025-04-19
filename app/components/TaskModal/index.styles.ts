@@ -1,43 +1,48 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
+import { theme } from '@constants/styles/theme';
 
 export const styles = StyleSheet.create({
-    modal: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
-      content: {
-        margin: 20,
-        padding: 20,
-        backgroundColor: '#FFF',
-        borderRadius: 10,
-      },
-      title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 15,
-      },
-      input: {
-        borderWidth: 1,
-        borderColor: '#CCC',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 10,
-      },
-      button: {
-        backgroundColor: '#007BFF',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-      },
-      buttonClose: {
-        backgroundColor: '#FF3B3B',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: 10,
-      },
-      buttonText: {
-        color: '#FFF',
-        textAlign: 'center',
-      },
-})
+  button: {
+    backgroundColor: theme.colors.PRIMARY,
+    borderRadius: 6,
+    marginTop: 10,
+    padding: 12,
+  },
+  buttonClose: {
+    backgroundColor: theme.colors.DANGER,
+    borderRadius: 6,
+    marginTop: 10,
+    padding: 12,
+  },
+  buttonText: {
+    color: theme.colors.BUTTON_TEXT,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  content: {
+    backgroundColor: theme.colors.CARD,
+    borderRadius: 10,
+    margin: 20,
+    padding: 20,
+  },
+  input: {
+    backgroundColor: theme.colors.BACKGROUND,
+    borderColor: theme.colors.BORDER,
+    borderRadius: 6,
+    borderWidth: 1,
+    color: theme.colors.TEXT,
+    marginBottom: 10,
+    padding: 10,
+  },
+  modal: {
+    backgroundColor: theme.colors.MODAL_BACKGROUND,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  title: {
+    color: theme.colors.TEXT,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+});

@@ -1,25 +1,27 @@
-import { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { ITask } from '@interfaces/ITask'
-import { useTaskStore } from '@store/useTaskStore'
-import { styles } from './index.styles'
-
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
+import { ITask } from '@interfaces/ITask';
+import { useTaskStore } from '@store/useTaskStore';
+import { statusOptions } from '@constants/statusOptions';
+import { styles } from './index.styles';
 interface IRouteParams {
-  task: ITask
+  task: ITask;
 }
 
 const TaskDetails: React.FC = () => {
-  const navigation = useNavigation()
-  const route = useRoute()
-  const { task } = route.params as IRouteParams
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { task } = route.params as IRouteParams;
 
-  const { updateTask, deleteTask } = useTaskStore()
+  const { updateTask, deleteTask } = useTaskStore();
 
-  const [title, setTitle] = useState(task.title)
-  const [description, setDescription] = useState(task.description)
-  const [dateTime, setDateTime] = useState(task.dateTime)
-  const [location, setLocation] = useState(task.location)
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [dateTime, setDateTime] = useState(task.dateTime);
+  const [location, setLocation] = useState(task.location);
+  const [status, setStatus] = useState(task.status);
 
   const handleSave = () => {
     updateTask({
@@ -28,14 +30,15 @@ const TaskDetails: React.FC = () => {
       description,
       dateTime,
       location,
-    })
-    navigation.goBack()
-  }
+      status,
+    });
+    navigation.goBack();
+  };
 
   const handleDelete = () => {
-    deleteTask(task.id)
-    navigation.goBack()
-  }
+    deleteTask(task.id);
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
@@ -67,6 +70,14 @@ const TaskDetails: React.FC = () => {
         onChangeText={setLocation}
         placeholder="Enter location"
       />
+      <Text style={styles.label}>Status</Text>
+      <View style={styles.picker}>
+        <Picker selectedValue={status} onValueChange={setStatus}>
+          {statusOptions.map((option) => (
+            <Picker.Item key={option} label={option} value={option} />
+          ))}
+        </Picker>
+      </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
@@ -74,7 +85,7 @@ const TaskDetails: React.FC = () => {
         <Text style={styles.buttonText}>Delete</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default TaskDetails
+export default TaskDetails;

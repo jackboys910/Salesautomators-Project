@@ -1,38 +1,34 @@
-import { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native'
-import { styles } from './index.styles'
-
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { styles } from './index.styles';
+import { ITask } from '@interfaces/ITask';
 interface ITaskModalProps {
-  visible: boolean
-  onClose: () => void
-  onSaveTask: (task: any) => void
+  visible: boolean;
+  onClose: () => void;
+  onSaveTask: (task: ITask) => void;
 }
 
-const TaskModal: React.FC<ITaskModalProps> = ({
-  visible,
-  onClose,
-  onSaveTask,
-}) => {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [dateTime, setDateTime] = useState('')
-  const [location, setLocation] = useState('')
+const TaskModal: React.FC<ITaskModalProps> = ({ visible, onClose, onSaveTask }) => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [dateTime, setDateTime] = useState('');
+  const [location, setLocation] = useState('');
 
   const handleSave = () => {
-    const newTask = {
+    const newTask: ITask = {
       id: Date.now().toString(),
       title,
       description,
       dateTime,
       location,
       status: 'In Progress',
-    }
-    onSaveTask(newTask)
-    setTitle('')
-    setDescription('')
-    setDateTime('')
-    setLocation('')
-  }
+    };
+    onSaveTask(newTask);
+    setTitle('');
+    setDescription('');
+    setDateTime('');
+    setLocation('');
+  };
 
   return (
     <Modal visible={visible} animationType="slide" transparent>
@@ -72,7 +68,7 @@ const TaskModal: React.FC<ITaskModalProps> = ({
         </View>
       </View>
     </Modal>
-  )
-}
+  );
+};
 
-export default TaskModal
+export default TaskModal;

@@ -1,10 +1,10 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
-import { ITask } from '@interfaces/ITask'
-import { styles } from './index.styles'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { ITask } from '@interfaces/ITask';
+import { styles, getStatusStyle } from './index.styles';
 
 interface ITaskListProps {
-  tasks: ITask[]
-  onTaskPress: (task: ITask) => void
+  tasks: ITask[];
+  onTaskPress: (task: ITask) => void;
 }
 
 const TaskList: React.FC<ITaskListProps> = ({ tasks, onTaskPress }) => {
@@ -17,14 +17,12 @@ const TaskList: React.FC<ITaskListProps> = ({ tasks, onTaskPress }) => {
           <View style={styles.task}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.dateTime}>{item.dateTime}</Text>
-            <Text style={styles.status}>
-              {item.status === 'In Progress' ? 'In Progress' : 'Completed'}
-            </Text>
+            <Text style={[styles.status, getStatusStyle(item.status)]}>{item.status}</Text>
           </View>
         </TouchableOpacity>
       )}
     />
-  )
-}
+  );
+};
 
-export default TaskList
+export default TaskList;
