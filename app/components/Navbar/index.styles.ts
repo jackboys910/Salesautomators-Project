@@ -1,29 +1,30 @@
 import { StyleSheet } from 'react-native';
+import { theme } from '@constants/styles/theme';
 
 export const styles = StyleSheet.create({
-  navbar: {
-    backgroundColor: '#007BFF',
-    padding: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
-    color: '#FFF',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   actions: {
     flexDirection: 'row',
   },
   button: {
-    backgroundColor: '#0056b3',
-    padding: 10,
+    backgroundColor: theme.colors.PRIMARY_DARK,
     borderRadius: 5,
     marginLeft: 10,
+    padding: 10,
   },
   buttonText: {
-    color: '#FFF',
+    color: theme.colors.BUTTON_TEXT,
     fontSize: 14,
+  },
+  navbar: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.PRIMARY,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+  },
+  title: {
+    color: theme.colors.BUTTON_TEXT,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });

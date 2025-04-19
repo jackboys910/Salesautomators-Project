@@ -1,62 +1,103 @@
-import { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
-import { useNavigation, NavigationProp } from '@react-navigation/native'
-import { ITask } from '@interfaces/ITask'
-import Navbar from '@components/Navbar'
-import TaskList from '@components/TaskList'
-import TaskModal from '@components/TaskModal'
-import { useTaskStore } from '@store/useTaskStore'
-import { styles } from './index.styles'
-
+import { useEffect, useState, useCallback } from 'react';
+import { Text, View } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { ITask } from '@interfaces/ITask';
+import Navbar from '@components/Navbar';
+import TaskList from '@components/TaskList';
+import TaskModal from '@components/TaskModal';
+import TaskFilter from '@components/TaskFilter';
+import { useTaskStore } from '@store/useTaskStore';
+import { useFilter, StatusFilter, DateFilter } from '@hooks/useFilter';
+import { styles } from './index.styles';
 interface IRootStackParamList {
-  Home: undefined
-  TaskDetails: { task: ITask }
+  Home: undefined;
+  TaskDetails: { task: ITask };
 }
 
 const Home: React.FC = () => {
-  const navigation = useNavigation<NavigationProp<IRootStackParamList>>()
-  const { tasks, loadTasks, addTask } = useTaskStore()
-  const [isModalVisible, setModalVisible] = useState(false)
-  const [sortBy, setSortBy] = useState<'date' | 'status'>('date')
+  const navigation = useNavigation<NavigationProp<IRootStackParamList>>();
+  const { tasks, loadTasks, addTask } = useTaskStore();
+
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isFilterVisible, setFilterVisible] = useState(false);
+
+  const { filteredTasks, filterStatus, sortByDate, setFilterStatus, setSortByDate, resetFilters } =
+    useFilter(tasks);
 
   useEffect(() => {
-    loadTasks()
-  }, [])
+    loadTasks();
+  }, []);
 
-  const sortedTasks = [...tasks].sort((a, b) => {
-    if (sortBy === 'date') {
-      return new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
-    }
-    return a.status.localeCompare(b.status)
-  })
+  const handleTaskPress = useCallback(
+    (task: ITask) => {
+      navigation.navigate('TaskDetails', { task });
+    },
+    [navigation],
+  );
 
-  const handleTaskPress = (task: ITask) => {
-    navigation.navigate('TaskDetails', { task })
-  }
+  const handleSaveTaskPress = useCallback(
+    (task: ITask) => {
+      addTask(task);
+      setModalVisible(false);
+    },
+    [addTask],
+  );
 
-  const handleSaveTaskPress = (task: ITask) => {
-    addTask(task)
-    setModalVisible(false)
-  }
+  const handleAddTaskPress = useCallback(() => {
+    if (isFilterVisible) setFilterVisible(false);
+    setModalVisible(true);
+  }, [isFilterVisible]);
+
+  const handleFilterClose = useCallback(() => {
+    setFilterVisible(false);
+    resetFilters();
+  }, [resetFilters]);
+
+  const handleCloseModal = useCallback(() => {
+    setModalVisible(false);
+  }, []);
+
+  const handleFilterChange = useCallback(
+    (status: StatusFilter, sort: DateFilter) => {
+      setFilterStatus(status);
+      setSortByDate(sort);
+    },
+    [setFilterStatus, setSortByDate],
+  );
+
+  const handleToggleFilter = useCallback(() => {
+    setFilterVisible((prev) => !prev);
+  }, []);
 
   return (
     <View style={styles.container}>
       <Navbar
-        onAddTask={() => setModalVisible(true)}
-        onSortChange={(sortOption) => setSortBy(sortOption)}
+        onAddTask={handleAddTaskPress}
+        onToggleFilter={handleToggleFilter}
+        isFilterVisible={isFilterVisible}
+        onClose={handleFilterClose}
       />
-      {tasks.length === 0 ? (
+      {isFilterVisible && (
+        <TaskFilter
+          onFilterChange={handleFilterChange}
+          isVisible={isFilterVisible}
+          onClose={handleFilterClose}
+          filterStatus={filterStatus}
+          sortByDate={sortByDate}
+        />
+      )}
+      {filteredTasks.length === 0 ? (
         <Text style={styles.noTasksText}>No tasks available</Text>
       ) : (
-        <TaskList tasks={sortedTasks} onTaskPress={handleTaskPress} />
+        <TaskList tasks={filteredTasks} onTaskPress={handleTaskPress} />
       )}
       <TaskModal
         visible={isModalVisible}
-        onClose={() => setModalVisible(false)}
+        onClose={handleCloseModal}
         onSaveTask={handleSaveTaskPress}
       />
     </View>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,41 +1,49 @@
 import { StyleSheet } from 'react-native';
+import { theme } from '@constants/styles/theme';
 
 export const styles = StyleSheet.create({
+  buttonText: {
+    color: theme.colors.BUTTON_TEXT,
+    fontSize: 16,
+    fontWeight: '600',
+  },
   container: {
+    backgroundColor: theme.colors.BACKGROUND,
     flex: 1,
     padding: 20,
-    backgroundColor: '#F5F5F5',
-  },
-  label: {
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 5,
-    fontWeight: '600',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#CCC',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-    backgroundColor: '#FFF',
-  },
-  saveButton: {
-    backgroundColor: '#007BFF',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginBottom: 10,
   },
   deleteButton: {
-    backgroundColor: '#FF3B3B',
-    padding: 15,
-    borderRadius: 5,
     alignItems: 'center',
+    backgroundColor: theme.colors.DANGER,
+    borderRadius: 6,
+    padding: 15,
   },
-  buttonText: {
-    color: '#FFF',
+  input: {
+    backgroundColor: theme.colors.CARD,
+    borderColor: theme.colors.BORDER,
+    borderRadius: 6,
+    borderWidth: 1,
+    color: theme.colors.TEXT,
+    marginBottom: 15,
+    padding: 10,
+  },
+  label: {
+    color: theme.colors.TEXT,
     fontSize: 16,
     fontWeight: '600',
+    marginBottom: 5,
+  },
+  picker: {
+    borderColor: theme.colors.BORDER,
+    borderRadius: 6,
+    borderWidth: 1,
+    marginBottom: 15,
+  },
+  saveButton: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.PRIMARY,
+    borderRadius: 6,
+    marginBottom: 10,
+    padding: 15,
   },
 });
