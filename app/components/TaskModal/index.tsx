@@ -1,7 +1,9 @@
-import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Modal } from 'react-native';
-import { styles } from './index.styles';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { taskValidationSchema, taskValidationType } from '@utils/validation/taskValidation';
 import { ITask } from '@interfaces/ITask';
+import { styles } from './index.styles';
 interface ITaskModalProps {
   visible: boolean;
   onClose: () => void;
@@ -9,60 +11,103 @@ interface ITaskModalProps {
 }
 
 const TaskModal: React.FC<ITaskModalProps> = ({ visible, onClose, onSaveTask }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [dateTime, setDateTime] = useState('');
-  const [location, setLocation] = useState('');
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<taskValidationType>({
+    resolver: zodResolver(taskValidationSchema),
+    defaultValues: {
+      title: '',
+      description: '',
+      dateTime: '',
+      location: '',
+    },
+  });
 
-  const handleSave = () => {
+  const handleSave = (data: taskValidationType) => {
     const newTask: ITask = {
       id: Date.now().toString(),
-      title,
-      description,
-      dateTime,
-      location,
+      ...data,
       status: 'In Progress',
     };
     onSaveTask(newTask);
-    setTitle('');
-    setDescription('');
-    setDateTime('');
-    setLocation('');
+    reset();
+    onClose();
+  };
+
+  const handleClose = () => {
+    reset();
+    onClose();
   };
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal visible={visible} animationType="fade" transparent>
       <View style={styles.modal}>
         <View style={styles.content}>
           <Text style={styles.title}>Add New Task</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Task Title"
-            value={title}
-            onChangeText={setTitle}
+          <Controller
+            name="title"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={[styles.input, errors.title && styles.errorInput]}
+                placeholder="Task Title (1-30 characters)"
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Task Description"
-            value={description}
-            onChangeText={setDescription}
+          {errors.title && <Text style={styles.errorText}>{errors.title.message}</Text>}
+
+          <Controller
+            name="dateTime"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={[styles.input, errors.dateTime && styles.errorInput]}
+                placeholder="Date and Time (DD.MM.YYYY HH:MM)"
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Date and Time"
-            value={dateTime}
-            onChangeText={setDateTime}
+          {errors.dateTime && <Text style={styles.errorText}>{errors.dateTime.message}</Text>}
+
+          <Controller
+            name="location"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={[styles.input, errors.location && styles.errorInput]}
+                placeholder="Location (1-30 characters)"
+                value={value}
+                onChangeText={onChange}
+              />
+            )}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Location"
-            value={location}
-            onChangeText={setLocation}
+          {errors.location && <Text style={styles.errorText}>{errors.location.message}</Text>}
+
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <TextInput
+                style={[styles.textArea, errors.description && styles.errorInput]}
+                placeholder="Description (Optional, up to 100 characters)"
+                value={value}
+                onChangeText={onChange}
+                multiline
+              />
+            )}
           />
-          <TouchableOpacity style={styles.button} onPress={handleSave}>
+          {errors.description && <Text style={styles.errorText}>{errors.description.message}</Text>}
+
+          <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSave)}>
             <Text style={styles.buttonText}>Save Task</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonClose} onPress={onClose}>
+          <TouchableOpacity style={styles.buttonClose} onPress={handleClose}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
         </View>

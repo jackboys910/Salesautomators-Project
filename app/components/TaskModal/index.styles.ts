@@ -25,12 +25,22 @@ export const styles = StyleSheet.create({
     margin: 20,
     padding: 20,
   },
+  errorInput: {
+    borderColor: theme.colors.DANGER,
+  },
+  errorText: {
+    color: theme.colors.DANGER,
+    fontSize: 14,
+    marginBottom: 10,
+    marginTop: -10,
+  },
   input: {
     backgroundColor: theme.colors.BACKGROUND,
     borderColor: theme.colors.BORDER,
     borderRadius: 6,
     borderWidth: 1,
     color: theme.colors.TEXT,
+    height: 40,
     marginBottom: 10,
     padding: 10,
   },
@@ -38,6 +48,15 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.MODAL_BACKGROUND,
     flex: 1,
     justifyContent: 'center',
+  },
+  textArea: {
+    backgroundColor: theme.colors.BACKGROUND,
+    borderColor: theme.colors.BORDER,
+    borderRadius: 6,
+    borderWidth: 1,
+    height: 80,
+    marginBottom: 10,
+    padding: 10,
   },
   title: {
     color: theme.colors.TEXT,
